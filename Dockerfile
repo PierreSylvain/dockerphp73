@@ -16,6 +16,11 @@ RUN yum --enablerepo=remi-php73 -y install php php-bcmath php-cli php-common php
 RUN sed -E -i -e '/<Directory "\/var\/www\/html">/,/<\/Directory>/s/AllowOverride None/AllowOverride All/' /etc/httpd/conf/httpd.conf
 RUN sed -E -i -e 's/DirectoryIndex (.*)$/DirectoryIndex index.php \1/g' /etc/httpd/conf/httpd.conf
 
+# Install composer
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN rm -f composer-setup.php
+
 EXPOSE 80
 
 WORKDIR /var/www/html
