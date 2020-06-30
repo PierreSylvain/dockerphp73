@@ -15,11 +15,20 @@ RUN yum --enablerepo=remi-php73 -y install php php-bcmath php-cli php-common php
 # Update Apache Configuration
 RUN sed -E -i -e '/<Directory "\/var\/www\/html">/,/<\/Directory>/s/AllowOverride None/AllowOverride All/' /etc/httpd/conf/httpd.conf
 RUN sed -E -i -e 's/DirectoryIndex (.*)$/DirectoryIndex index.php \1/g' /etc/httpd/conf/httpd.conf
+RUN sed -E -i -e 's/User .*$/User ${APACHE_RUN_USER}/' /etc/httpd/conf/httpd.conf
+RUN sed -E -i -e 's/Group .*$/Group ${APACHE_RUN_GROUP}/' /etc/httpd/conf/httpd.conf
 
 # Install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 RUN rm -f composer-setup.php
+
+# Add normal user and use it for apache
+RUN groupadd -g 1000 develop 
+RUN adduser -g develop -u 1000 develop 
+
+ENV APACHE_RUN_USER develop
+ENV APACHE_RUN_GROUP develop
 
 EXPOSE 80
 
