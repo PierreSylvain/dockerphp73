@@ -13,6 +13,7 @@ RUN yum --enablerepo=remi-php73 -y install php php-bcmath php-cli php-common php
     php-mysqlnd php-pear php-soap php-xml php-xmlrpc php-zip php-imap
 
 RUN yum -y install zip unzip
+RUN yum -y install php73-php-pecl-pcov
 
 # Update Apache Configuration
 RUN sed -E -i -e '/<Directory "\/var\/www\/html">/,/<\/Directory>/s/AllowOverride None/AllowOverride All/' /etc/httpd/conf/httpd.conf
