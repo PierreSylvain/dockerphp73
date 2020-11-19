@@ -10,7 +10,7 @@ RUN rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.
 
 # Install PHP
 RUN yum --enablerepo=remi-php73 -y install php php-bcmath php-cli php-common php-gd php-intl php-ldap php-mbstring \
-    php-mysqlnd php-pear php-soap php-xml php-xmlrpc php-zip php-imap
+    php-mysqlnd php-pear php-soap php-xml php-xmlrpc php-zip php-imap php-pecl-pcov
 
 RUN yum -y install zip unzip
 RUN yum -y install php73-php-pecl-pcov
